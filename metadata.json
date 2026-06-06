@@ -1,6 +1,6 @@
 {
-  "name": "",
-  "description": "",
+  "name": "ChatGPT Prompts Library",
+  "description": "A comprehensive categorized collection of high-performing ChatGPT prompt templates.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

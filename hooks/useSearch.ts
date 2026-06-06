@@ -58,17 +58,24 @@ export function useSearch() {
   // Handle debounced search
   useEffect(() => {
     if (!query.trim()) {
-      setResults([]);
-      setIsSearching(false);
+      Promise.resolve().then(() => {
+        setResults([]);
+        setIsSearching(false);
+      });
       return;
     }
 
-    setIsSearching(true);
+    Promise.resolve().then(() => {
+      setIsSearching(true);
+    });
     const delayDebounceFn = setTimeout(() => {
       if (fuseInstance) {
         let searchResults = fuseInstance.search(query).map((r: any) => r.item);
-        if (industryFilter !== "All") {
-          searchResults = searchResults.filter((r: PromptRecord) => r.industry === industryFilter || r.industry === "Universal" || (!r.industry && industryFilter === "Universal"));
+        if (industryFilter) {
+          searchResults = searchResults.filter((r: PromptRecord) => {
+            const promptInd = r.industry || "Universal";
+            return promptInd.toLowerCase() === industryFilter.toLowerCase();
+          });
         }
         setResults(searchResults);
       }
@@ -77,6 +84,19 @@ export function useSearch() {
 
     return () => clearTimeout(delayDebounceFn);
   }, [query, industryFilter, hasLoaded]); // Depend on hasLoaded so if they type before loaded, it searches after load
+
+  // Listen to custom event for prompt updates to clear search cache
+  useEffect(() => {
+    const handleUpdate = () => {
+      fuseInstance = null;
+      searchIndex = [];
+      setHasLoaded(false);
+    };
+    if (typeof window !== "undefined") {
+      window.addEventListener("promptsUpdated", handleUpdate);
+      return () => window.removeEventListener("promptsUpdated", handleUpdate);
+    }
+  }, []);
 
   return { query, setQuery, industryFilter, setIndustryFilter, results, isSearching, initSearch, hasLoaded };
 }

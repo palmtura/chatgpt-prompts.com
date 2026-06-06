@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { CATEGORIES } from "@/lib/data";
 import { ArrowRight, Menu, Search as SearchIcon, Filter } from "lucide-react";
 import Image from "next/image";
@@ -9,9 +10,11 @@ import FAQ from "@/components/FAQ";
 import Popup from "@/components/Popup";
 import { useSearch } from "@/hooks/useSearch";
 import { SearchResults } from "@/components/SearchResults";
+import AdminDashboard from "@/components/AdminDashboard";
 
 export default function Page() {
   const { query, setQuery, industryFilter, setIndustryFilter, results, isSearching, initSearch, hasLoaded } = useSearch();
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
 
   return (
     <>
@@ -36,7 +39,12 @@ export default function Page() {
           </>
         )}
       </main>
-      <Footer />
+      <Footer onOpenAdmin={() => setIsAdminOpen(true)} />
+      <AdminDashboard 
+        isOpen={isAdminOpen} 
+        onClose={() => setIsAdminOpen(false)} 
+        onRefreshSearchIndex={initSearch}
+      />
       <Popup />
     </>
   );
@@ -149,7 +157,6 @@ function Hero({
               onChange={(e) => setIndustry(e.target.value)}
               className="w-full h-full bg-surface border border-border rounded-xl md:rounded-2xl py-3 md:py-[18px] pl-10 pr-10 text-[#ffffff] font-sora text-xs md:text-sm cursor-pointer appearance-none outline-none focus:border-white transition-all duration-300 relative z-10"
             >
-              <option className="bg-surface text-white" value="All">All</option>
               <option className="bg-surface text-white" value="Universal">Universal</option>
               <option className="bg-surface text-white" value="Automotive">Automotive</option>
               <option className="bg-surface text-white" value="Agriculture">Agriculture</option>
@@ -178,7 +185,7 @@ function Hero({
 
 function CategorySection() {
   return (
-    <section id="categories" className="pb-14 md:pb-24 pt-4 px-6 md:px-12 w-full max-w-[1200px] mx-auto">
+    <section id="categories" className="pb-8 md:pb-14 pt-2 px-6 md:px-12 w-full max-w-[1200px] mx-auto">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {CATEGORIES.map((cat) => {
           return (
@@ -223,10 +230,10 @@ function ExtendedEditorial() {
           </h2>
           <div className="space-y-6 font-sans text-text-primary leading-relaxed text-base md:text-lg">
             <p>
-              Most people open ChatGPT and type whatever comes to mind. They get mediocre results and assume AI just isn't that good. The truth is that ChatGPT is only as good as the prompt you give it. A vague request produces a vague response. A precisely structured ChatGPT Prompt — with clear context, a defined output format, and a target audience — produces results you can actually use.
+              Most people open ChatGPT and type whatever comes to mind. They get mediocre results and assume AI just isn&apos;t that good. The truth is that ChatGPT is only as good as the prompt you give it. A vague request produces a vague response. A precisely structured ChatGPT Prompt — with clear context, a defined output format, and a target audience — produces results you can actually use.
             </p>
             <p>
-              The best ChatGPT Prompts share four traits: they define a role ('Act as a senior marketing strategist'), they provide context, they specify the format of the output, and they set constraints. When these four elements are in place, ChatGPT becomes less of a chatbot and more of a skilled, always-available collaborator.
+              The best ChatGPT Prompts share four traits: they define a role (&apos;Act as a senior marketing strategist&apos;), they provide context, they specify the format of the output, and they set constraints. When these four elements are in place, ChatGPT becomes less of a chatbot and more of a skilled, always-available collaborator.
             </p>
             <p>
               Every ChatGPT Prompt in our library has been written with these principles in mind. They are not generic — they are templates engineered to produce outputs you can use directly in your work, with minimal editing. Whether you need ChatGPT Prompts for a board presentation, a sales email, or a 30-day social media calendar, you will find it here, and it will work.
@@ -264,7 +271,7 @@ function ExtendedEditorial() {
   );
 }
 
-function Footer() {
+function Footer({ onOpenAdmin }: { onOpenAdmin: () => void }) {
   return (
     <footer className="bg-background border-t border-border pt-16 pb-8 px-6 md:px-12 mt-12 w-full">
       <div className="max-w-[1200px] mx-auto">
@@ -304,7 +311,15 @@ function Footer() {
         </div>
 
         <div className="border-t border-border pt-8 flex flex-col sm:flex-row items-center justify-between font-sans text-xs text-text-muted">
-          <p>© 2024 chatgpt-prompts.com · All prompts are free to use.</p>
+          <p>
+            © 2024 chatgpt-prompts.com · All prompts are free to use. ·{" "}
+            <button
+              onClick={onOpenAdmin}
+              className="hover:text-white underline cursor-pointer pr-1 transition-colors outline-none"
+            >
+              Webmaster
+            </button>
+          </p>
           <p className="mt-2 sm:mt-0">Not affiliated with OpenAI.</p>
         </div>
       </div>

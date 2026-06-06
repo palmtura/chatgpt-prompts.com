@@ -8,10 +8,12 @@ export function SearchResults({ results, isSearching }: { results: PromptRecord[
   const [displayedCount, setDisplayedCount] = useState(48);
   const observerRef = useRef<HTMLDivElement>(null);
 
-  // Reset pagination when search results change
-  useEffect(() => {
+  // Reset pagination state when search results change using render-phase derivation
+  const [prevResults, setPrevResults] = useState(results);
+  if (results !== prevResults) {
+    setPrevResults(results);
     setDisplayedCount(48);
-  }, [results]);
+  }
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -101,11 +103,11 @@ function PromptCard({ prompt }: { prompt: PromptRecord }) {
       
       <div className="flex flex-col relative z-10 h-full">
         <div className="flex items-center gap-2 mb-2">
-          <span className="inline-flex items-center justify-center font-sans font-medium text-[9px] tracking-widest text-text-muted border border-border bg-surface-alt px-2 py-[2px] rounded uppercase">
-            {prompt.category}
-          </span>
           <span className="inline-flex items-center justify-center font-sans font-medium text-[9px] tracking-widest text-accent border border-accent/20 bg-accent/5 px-2 py-[2px] rounded uppercase">
             {prompt.industry || "Universal"}
+          </span>
+          <span className="inline-flex items-center justify-center font-sans font-medium text-[9px] tracking-widest text-text-muted border border-border bg-surface-alt px-2 py-[2px] rounded uppercase">
+            {prompt.category}
           </span>
         </div>
         <h3 className="font-sora font-bold text-base text-white mb-2 line-clamp-2">

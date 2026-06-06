@@ -73,7 +73,7 @@ export default function Popup() {
                   onClick={() => setIsVisible(false)}
                   className="text-text-muted hover:text-white text-xs text-center transition-colors font-sans"
                 >
-                  No thanks, I'll stick with plain slides
+                  No thanks, I&apos;ll stick with plain slides
                 </button>
               </div>
             </div>

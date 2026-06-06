@@ -6,46 +6,20 @@ import { Copy, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function PopularPrompts() {
-  const [activeCategory, setActiveCategory] = useState("All");
-  
-  const categories = ["All", "Marketing", "Sales", "Presentations", "Email", "Social Media", "SEO & Content", "Business", "HR", "Productivity", "Creative Writing"];
-
-  const filteredPrompts = PROMPTS.filter((p) => {
-    if (activeCategory === "All") return true;
-    if (activeCategory === "HR" && p.category === "HR & Recruiting") return true; 
-    if (activeCategory === "Creative Writing" && p.category === "Creative Writing") return true;
-    return p.category.includes(activeCategory);
-  });
+  const filteredPrompts = PROMPTS.slice(0, 50);
 
   return (
-    <section className="py-14 md:py-24 px-6 md:px-12 w-full max-w-[1200px] mx-auto" id="popular">
-      <div className="mb-12">
-        <span className="font-sans font-medium text-[12px] tracking-[0.08em] text-text-muted uppercase mb-3 block">
+    <section className="pt-4 pb-4 px-6 md:px-12 w-full max-w-[1200px] mx-auto" id="popular">
+      <div className="mb-6">
+        <span className="font-sans font-medium text-[12px] tracking-[0.08em] text-text-muted uppercase mb-1.5 block">
           MOST POPULAR
         </span>
-        <h2 className="font-sora text-3xl md:text-4xl text-white mb-4 tracking-tight">
-          100 ChatGPT Prompts Professionals Use Every Day
+        <h2 className="font-sora text-3xl md:text-4xl text-white mb-2 tracking-tight">
+          50 ChatGPT Prompts Professionals Use Every Day
         </h2>
-        <p className="font-sans text-text-primary max-w-2xl text-base md:text-lg">
+        <p className="font-sans text-text-primary max-w-2xl text-sm md:text-base">
           Hand-picked from 11 categories. Click any prompt to copy it instantly — no account needed.
         </p>
-      </div>
-
-      <div className="flex flex-nowrap overflow-x-auto pb-4 mb-8 gap-2 scrollbar-hide">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
-            className={cn(
-              "whitespace-nowrap px-4 py-2 rounded-full font-sans text-sm font-medium transition-all border",
-              activeCategory === cat
-                ? "bg-white border-white text-black"
-                : "bg-surface border-border text-text-muted hover:border-text-muted hover:text-white"
-            )}
-          >
-            {cat}
-          </button>
-        ))}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -84,11 +58,11 @@ function PromptCard({ prompt }: { prompt: typeof PROMPTS[number] }) {
       
       <div className="flex flex-col relative z-10 h-full">
         <div className="flex items-center gap-2 mb-2">
-          <span className="inline-flex items-center justify-center font-sans font-medium text-[9px] tracking-widest text-text-muted border border-border bg-surface-alt px-2 py-[2px] rounded uppercase">
-            {prompt.category}
-          </span>
           <span className="inline-flex items-center justify-center font-sans font-medium text-[9px] tracking-widest text-accent border border-accent/20 bg-accent/5 px-2 py-[2px] rounded uppercase">
             {prompt.industry || "Universal"}
+          </span>
+          <span className="inline-flex items-center justify-center font-sans font-medium text-[9px] tracking-widest text-text-muted border border-border bg-surface-alt px-2 py-[2px] rounded uppercase">
+            {prompt.category}
           </span>
         </div>
         <h3 className="font-sora font-bold text-base text-white mb-2 line-clamp-2">
