@@ -125,7 +125,21 @@ function Hero({
         </h1>
 
         {/* Search Bar */}
-        <div className="w-full max-w-[800px] relative group mx-auto flex flex-col md:flex-row gap-2">
+        <div className="w-full max-w-[800px] relative group mx-auto flex flex-col md:flex-row gap-2 mt-8 md:mt-2">
+          
+          {/* Try for free pointer */}
+          {query.trim().length === 0 && (
+            <div className="hidden lg:flex absolute top-1/2 -left-40 -translate-y-[80%] z-30 pointer-events-none flex-col items-end">
+              <div className="font-sora font-bold text-xl text-white mb-2 leading-tight text-left italic mr-12 rotate-[-4deg]">
+                Try It Out<br />For Free
+              </div>
+              <svg width="90" height="70" viewBox="0 0 90 70" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2">
+                <path d="M 20 0 C 20 40, 40 55, 80 55" stroke="white" strokeWidth="4" strokeLinecap="round" strokeDasharray="1 12" fill="none"/>
+                <path d="M 65 40 L 85 55 L 65 70" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+              </svg>
+            </div>
+          )}
+
           <div className="relative flex-grow">
             <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none z-20 text-text-muted transition-colors group-focus-within:text-white">
               <SearchIcon size={18} strokeWidth={2} />
