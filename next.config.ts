@@ -1,5 +1,6 @@
 import type {NextConfig} from 'next';
 
+// Trigger new GitHub Actions deployment to test custom domain fix
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   eslint: {
