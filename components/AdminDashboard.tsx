@@ -192,42 +192,18 @@ export default function AdminDashboard({
   const handleSaveToDatabase = async () => {
     if (parsedPrompts.length === 0) return;
     setIsProcessing(true);
-    setStatusMessage({ type: "info", text: "Saving prompts to database..." });
+    setStatusMessage({ type: "info", text: "Generating static JSON bundle..." });
 
     try {
-      const response = await fetch("/api/admin/save-prompts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: "lukas",
-          password: "Test123***!!!",
-          prompts: parsedPrompts
-        })
-      });
-
-      const resData = await response.json();
-      if (!response.ok) {
-        throw new Error(resData.error || "Unexpected server error while saving");
-      }
-
+      await triggerIndexDownload();
       setStatusMessage({ 
         type: "success", 
-        text: `Success! ${resData.addedCount} prompts have been permanently added and the search index rebuilt successfully.` 
+        text: `Success! The complete JSON bundle has been downloaded. You can replace your public/search-index.json with this new file and commit it.` 
       });
       setParsedPrompts([]); // Clear table on success
-      
-      // Refresh search index in active client session
-      if (onRefreshSearchIndex) {
-        onRefreshSearchIndex();
-        // Fire custom window event to notify useSearch hook instances
-        const event = new CustomEvent("promptsUpdated");
-        window.dispatchEvent(event);
-      }
     } catch (err: any) {
       console.error(err);
-      setStatusMessage({ type: "error", text: `Error saving: ${err.message}` });
+      setStatusMessage({ type: "error", text: `Error generating bundle: ${err.message}` });
     } finally {
       setIsProcessing(false);
     }

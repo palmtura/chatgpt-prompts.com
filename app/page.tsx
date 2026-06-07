@@ -129,7 +129,7 @@ function Hero({
           
           {/* Try for free pointer */}
           {query.trim().length === 0 && (
-            <div className="hidden lg:flex absolute top-1/2 -left-20 -translate-y-[80%] z-30 pointer-events-none flex-col items-end scale-50 origin-bottom-right opacity-80">
+            <div className="hidden lg:flex absolute top-1/2 -left-36 -translate-y-[110%] z-30 pointer-events-none flex-col items-end scale-50 origin-bottom-right opacity-80">
               <div className="font-sora font-bold text-xl text-white mb-2 leading-tight text-left italic mr-12 rotate-[-4deg]">
                 Try It Out<br />For Free
               </div>
