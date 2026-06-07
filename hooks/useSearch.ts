@@ -29,7 +29,7 @@ export function useSearch() {
     try {
       const [{ default: Fuse }, res] = await Promise.all([
         import('fuse.js'),
-        fetch('/search-index.json')
+        fetch(`/search-index.json?v=${new Date().getTime()}`)
       ]);
       
       const data = await res.json();

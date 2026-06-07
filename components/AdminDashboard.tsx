@@ -236,7 +236,7 @@ export default function AdminDashboard({
   // Static site utility: Downloads absolute complete search JSON directly
   const triggerIndexDownload = async () => {
     try {
-      const res = await fetch("/search-index.json");
+      const res = await fetch(`/search-index.json?v=${new Date().getTime()}`);
       const index = await res.json();
       
       const extraMapped = parsedPrompts.map((p, indexOffset) => {
