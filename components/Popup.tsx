@@ -9,11 +9,21 @@ export default function Popup() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const hasSeenPopup = sessionStorage.getItem("popup_shown");
+    let hasSeenPopup = false;
+    try {
+      hasSeenPopup = !!sessionStorage.getItem("popup_shown");
+    } catch (e) {
+      console.warn("sessionStorage is unavailable");
+    }
+
     if (!hasSeenPopup) {
       const timer = setTimeout(() => {
         setIsVisible(true);
-        sessionStorage.setItem("popup_shown", "true");
+        try {
+          sessionStorage.setItem("popup_shown", "true");
+        } catch (e) {
+          // Ignore
+        }
       }, 5000);
       return () => clearTimeout(timer);
     }
