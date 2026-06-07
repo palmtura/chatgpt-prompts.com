@@ -325,7 +325,7 @@ function Footer({ onOpenAdmin }: { onOpenAdmin: () => void }) {
         </div>
 
         <div className="border-t border-border pt-8 flex flex-col sm:flex-row items-center justify-between font-sans text-xs text-text-muted">
-          <p>
+          <div>
             © 2024 chatgpt-prompts.com · All prompts are free to use. ·{" "}
             <button
               onClick={onOpenAdmin}
@@ -333,7 +333,7 @@ function Footer({ onOpenAdmin }: { onOpenAdmin: () => void }) {
             >
               Webmaster
             </button>
-          </p>
+          </div>
           <p className="mt-2 sm:mt-0">Not affiliated with OpenAI.</p>
         </div>
       </div>
